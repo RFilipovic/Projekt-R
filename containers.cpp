@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <stdexcept>
+#include <sstream>
 
-class TimeDate
+class UntilDue
 {
 public:
-    TimeDate(int minutes, int seconds) : minutes(minutes), seconds(seconds)
+    UntilDue(int minutes, int seconds) : minutes(minutes), seconds(seconds)
     {
         if (minutes < 0 || seconds < 0 || seconds >= 60)
         {
@@ -37,31 +39,36 @@ protected:
     std::string id;
 };
 
-class HotStorage : public Container
+class UntilDueContainer : public Container
 {
 public:
-    HotStorage(const std::string &id, const TimeDate &untilDue)
+    UntilDueContainer(const std::string &id, const UntilDue &untilDue)
         : Container(id), untilDue(untilDue) {}
 
     void displayDetails() const override
     {
-        std::cout << id << " " << untilDue.toString() << " " << std::endl;
+        std::cout << id << " " << untilDue.toString() << std::endl;
     }
 
+   
+    UntilDue getUntilDue() const { return untilDue; }
+
+  
+    void setUntilDue(const UntilDue &newUntilDue) { untilDue = newUntilDue; }
+
 private:
-    TimeDate untilDue;
+    UntilDue untilDue;
 };
 
-class RollingMill : public Container
+class PriorityContainer : public Container
 {
 public:
-    RollingMill(const std::string &id, int deliveryNumber, const std::string &destination)
+    PriorityContainer(const std::string &id, int priority, const std::string &destination)
         : Container(id), priority(priority), destination(destination) {}
 
     void displayDetails() const override
     {
-        std::cout << id << " " << priority
-                  << " " << destination << std::endl;
+        std::cout << id << " " << priority << " " << destination << std::endl;
     }
 
 private:
