@@ -3,11 +3,12 @@
 
 #include<memory>
 #include <vector>
-#include"containers.h"
+
+#include "containers.h"
 
 class ContainerStack {
 public:
-    virtual bool push(Container* container);
+    virtual bool push(Container &container);
     Container* pop(); 
     Container* top() const; 
     bool isEmpty(); 

@@ -4,11 +4,9 @@
 #include <stdexcept> 
 
 #include "ContainerStack.h"
-#include "containers.h"
 
-
-bool ContainerStack::push(Container* container) {
-    containers.push_back(container);
+bool ContainerStack::push(Container &container) {
+    containers.push_back(&container);
     return true;
 }
 

@@ -7,7 +7,7 @@ class Buffer : public ContainerStack {
 public:
     Buffer(int size);
     bool isFull();
-    bool push(Container* container) override;
+    bool push(Container &container) override;
 private:
     int size;
 };
