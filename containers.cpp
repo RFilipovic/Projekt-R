@@ -26,10 +26,15 @@ UntilDueContainer::UntilDueContainer(const std::string &id, const UntilDue &unti
     : Container(id), untilDue(untilDue) {}
 
 void UntilDueContainer::displayDetails() const  {
-    
     std::cout << id << " " << untilDue.toString() << std::endl;
 }
 
 UntilDue UntilDueContainer::getUntilDue() const { return untilDue; }
-  
 void UntilDueContainer::setUntilDue(const UntilDue &newUntilDue) { untilDue = newUntilDue; }
+
+PriorityContainer::PriorityContainer(const std::string &id, int priority, const std::string &destination)
+        : Container(id), priority(priority), destination(destination) {}
+
+void PriorityContainer::displayDetails() const {
+        std::cout << id << " " << priority << " " << destination << std::endl;
+}

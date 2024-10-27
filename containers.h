@@ -19,7 +19,7 @@ class Container {
         std::string id;
 };
 
-class UntilDueContainer : public Container{
+class UntilDueContainer : public Container {
     public:
         UntilDueContainer(const std::string &id, const UntilDue &untilDue);
         void displayDetails() const;
@@ -27,6 +27,15 @@ class UntilDueContainer : public Container{
         void setUntilDue(const UntilDue &newUntilDue);
     private:
         UntilDue untilDue;
+};
+
+class PriorityContainer : public Container {
+public:
+    PriorityContainer(const std::string &id, int priority, const std::string &destination);
+    void displayDetails() const;
+private:
+    int priority;
+    std::string destination;
 };
 
 #endif // CONTAINERS_H
