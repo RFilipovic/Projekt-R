@@ -3,11 +3,14 @@
 
 #include <string>
 #include <vector>
+#include <regex>
 
 class InitialStateReader {
     public:
         InitialStateReader(const std::string &filename);
         std::vector<std::string> getLines();
+        std::vector<std::string> splitStringByRegex(const std::string& input, const char& pattern);
+        int getRegexCount(const std::string &line, const char &regex);
     private:
         std::string filename;
         std::vector<std::string> lines;
