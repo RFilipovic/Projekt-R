@@ -3,6 +3,7 @@
 
 class UntilDue {
     public:
+        UntilDue();
         UntilDue(int minutes, int seconds);
         std::string toString() const;
     private:
