@@ -8,7 +8,7 @@
 class ParsedBuffers : public InitialStateReader {
     public:
         ParsedBuffers(const std::string &filename);
-        int getMaxBufferSize();
+        int getBufferSize();
         UntilDue getClearingTime();
         UntilDue getCraneLift();
         UntilDue getCraneMove();
@@ -16,7 +16,7 @@ class ParsedBuffers : public InitialStateReader {
         std::vector<Buffer*> getBuffers();
         void displayBuffers();
     private:
-        int maxBufferSize;
+        int bufferSize;
         UntilDue clearingTime;
         UntilDue craneLift;
         UntilDue craneMove;
