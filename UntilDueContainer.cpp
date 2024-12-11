@@ -1,10 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <stdexcept>
-#include <sstream>
 
-#include "containers.h"
+#include "UntilDueContainer.h"
 
 UntilDue::UntilDue() {}
 
@@ -21,9 +19,6 @@ std::string UntilDue::toString() const {
     return oss.str();
 }
 
-Container::Container(const std::string &id) : id(id) {}
-Container::~Container() {}
-
 UntilDueContainer::UntilDueContainer(const std::string &id, const UntilDue &untilDue)
     : Container(id), untilDue(untilDue) {}
 
@@ -32,11 +27,5 @@ void UntilDueContainer::displayDetails() const  {
 }
 
 UntilDue UntilDueContainer::getUntilDue() const { return untilDue; }
+
 void UntilDueContainer::setUntilDue(const UntilDue &newUntilDue) { untilDue = newUntilDue; }
-
-PriorityContainer::PriorityContainer(const std::string &id, int priority, const std::string &destination)
-        : Container(id), priority(priority), destination(destination) {}
-
-void PriorityContainer::displayDetails() const {
-        std::cout << id << " " << priority << " " << destination << std::endl;
-}

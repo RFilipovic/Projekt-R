@@ -1,10 +1,6 @@
 #ifndef INITIALSTATEREADER_H
 #define INITIALSTATEREADER_H
 
-#include <string>
-#include <vector>
-#include <regex>
-
 class InitialStateReader {
     public:
         InitialStateReader(const std::string &filename);

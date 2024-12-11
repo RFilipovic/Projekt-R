@@ -1,4 +1,8 @@
+#include <string>
+#include <vector>
+
 #include "Buffer.h"
+#include "Container.h"
 
 Buffer::Buffer(int size, const std::string &name) : size(size), name(name) {}
 

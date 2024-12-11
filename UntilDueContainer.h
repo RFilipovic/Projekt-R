@@ -1,5 +1,7 @@
-#ifndef CONTAINERS_H
-#define CONTAINERS_H
+#ifndef UNTILDUECONTAINER_H
+#define UNTILDUECONTAINER_H
+
+#include "Container.h"
 
 class UntilDue {
     public:
@@ -9,15 +11,6 @@ class UntilDue {
     private:
         int minutes;
         int seconds;
-};
-
-class Container {
-    public:
-        Container(const std::string &id);
-        virtual ~Container();
-        virtual void displayDetails() const = 0;
-    protected:
-        std::string id;
 };
 
 class UntilDueContainer : public Container {
@@ -30,13 +23,4 @@ class UntilDueContainer : public Container {
         UntilDue untilDue;
 };
 
-class PriorityContainer : public Container {
-public:
-    PriorityContainer(const std::string &id, int priority, const std::string &destination);
-    void displayDetails() const;
-private:
-    int priority;
-    std::string destination;
-};
-
-#endif // CONTAINERS_H
+#endif //UNTILDUECONTAINER_H

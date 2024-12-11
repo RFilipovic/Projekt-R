@@ -1,8 +1,9 @@
 #ifndef PARSEDBUFFERS_H
 #define PARSEDBUFFERS_H
 
+#include <vector>
+#include "UntilDueContainer.h"
 #include "InitialStateReader.h"
-#include "containers.h"
 #include "Buffer.h"
 
 class ParsedBuffers : public InitialStateReader {
