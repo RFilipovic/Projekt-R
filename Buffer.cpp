@@ -1,6 +1,14 @@
-#include "Buffer.h"
+#include <string>
+#include <vector>
 
-Buffer::Buffer(int size) : size(size){}
+#include "Buffer.h"
+#include "Container.h"
+
+Buffer::Buffer(int size, const std::string &name) : size(size), name(name) {}
+
+std::string Buffer::getName(){
+    return name;
+}
 
 bool Buffer::isFull(){
     if(containers.size()>=size){

@@ -32,8 +32,8 @@ bool ContainerStack::isEmpty() {
 
 void ContainerStack::printStack(){
     for(const auto& c : containers){
-        c->displayDetails();
         std::cout << "  ";
+        c->displayDetails();
     }
     std::cout << std::endl;
 }
