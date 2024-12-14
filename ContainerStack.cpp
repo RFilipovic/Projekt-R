@@ -5,6 +5,8 @@
 
 #include "ContainerStack.h"
 
+ContainerStack::ContainerStack(const std::string &name) : name(name){}
+
 bool ContainerStack::push(Container &container) {
     containers.push_back(&container);
     return true;
@@ -40,4 +42,8 @@ void ContainerStack::printStack(){
 
 int ContainerStack::getSize(){
     return containers.size();
+}
+
+std::string ContainerStack::getName(){
+    return name;
 }

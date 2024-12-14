@@ -8,10 +8,8 @@ public:
     Buffer(int size, const std::string &name);
     bool isFull();
     bool push(Container &container) override;
-    std::string getName();
 private:
     int size;
-    std::string name;
 };
 
 #endif // BUFFER_H

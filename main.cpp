@@ -4,6 +4,7 @@
 
 #include "ParsedBuffers.h"
 #include "Buffer.h"
+#include "ContainerStack.h"
 #include "Container.h"
 
 void printEverything(ParsedBuffers pb);
@@ -42,6 +43,7 @@ void printEverything(ParsedBuffers pb){
     int height=4; //koliko ce redova bit od kuke do dna stogova, bzvz 10 zasad
     int width=buffers.size()*10 + buffers.size(); //sirina cijelog "prozora" koji prikazuje sve
 
+    //kuka dio
     for(int i=0;i<width;i++){
         if(i==HookIndex+1){
             std::cout<<"|";
@@ -64,10 +66,12 @@ void printEverything(ParsedBuffers pb){
         std::cout<<std::endl;
     }
 
+    //stogovi dio
    for(int currentHeightOfStack = maxStackHeight;currentHeightOfStack>0;currentHeightOfStack--){
         //prolazit po buffers i gledat koliki je size svakog stoga
         // -> ako je jednak chs onda popat element i ispisat ga
         // -> ako nije onda stavit " "
+        ContainerStack* prev = NULL;
         for(auto& stack : buffers){
             if(currentHeightOfStack == stack->getSize()){
                 Container* el = stack->pop();
@@ -77,6 +81,10 @@ void printEverything(ParsedBuffers pb){
             else{
                 std::cout<<std::setw(11)<<"x";
             }
+            if(prev!=NULL && sameCategoryStack(prev->getName(),stack->getName())){
+
+            }
+            prev = stack;
         }
         std::cout<<std::endl;
    }
