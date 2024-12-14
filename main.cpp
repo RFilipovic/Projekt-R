@@ -13,11 +13,6 @@ int main(){
 
     ParsedBuffers *data = new ParsedBuffers("ulaz.txt");
 
-/*     for(auto buffer : data->getBuffers()){
-        std::cout<<buffer->getName()<<std::endl;
-        //buffer->printStack();
-        std::cout<<std::endl;
-    } */
     printEverything(*data);
 
     return 0;
@@ -45,7 +40,7 @@ void printEverything(ParsedBuffers pb){
 
     //kuka dio
     for(int i=0;i<width;i++){
-        if(i==HookIndex+1){
+        if(i==HookIndex){
             std::cout<<"|";
         }
         else{
@@ -54,7 +49,7 @@ void printEverything(ParsedBuffers pb){
     }
     std::cout<<std::endl;
     for(int i=0;i<width;i++){
-        if(i==HookIndex){
+        if(i==HookIndex-1){
             std::cout<<"[ ]";
         }
         else{
@@ -77,7 +72,7 @@ void printEverything(ParsedBuffers pb){
             if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
                 std::cout<<"   ";
             }
-            else{
+            else if(prev!=NULL){
                 std::cout<<" ";
             }
             prev = stack;
@@ -98,7 +93,7 @@ void printEverything(ParsedBuffers pb){
         if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
             std::cout<<"   ";
         }
-        else{
+        else if(prev!=NULL){
             std::cout<<" ";
         }
         prev = stack;
@@ -113,7 +108,7 @@ void printEverything(ParsedBuffers pb){
     if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
         std::cout<<"   ";
     }
-    else{
+    else if(prev!=NULL){
         std::cout<<" ";
     }
         std::cout<<std::setw(11)<<stack->getName();
