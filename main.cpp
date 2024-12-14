@@ -67,38 +67,55 @@ void printEverything(ParsedBuffers pb){
     }
 
     //stogovi dio
+    ContainerStack* prev = NULL;
    for(int currentHeightOfStack = maxStackHeight;currentHeightOfStack>0;currentHeightOfStack--){
         //prolazit po buffers i gledat koliki je size svakog stoga
         // -> ako je jednak chs onda popat element i ispisat ga
         // -> ako nije onda stavit " "
-        ContainerStack* prev = NULL;
+        prev = NULL;
         for(auto& stack : buffers){
+            if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
+                std::cout<<"   ";
+            }
+            else{
+                std::cout<<" ";
+            }
+            prev = stack;
             if(currentHeightOfStack == stack->getSize()){
                 Container* el = stack->pop();
                 el->displayDetails();
-                //std::cout<<" ";
             }
             else{
                 std::cout<<std::setw(11)<<"x";
             }
-            if(prev!=NULL && sameCategoryStack(prev->getName(),stack->getName())){
-
-            }
-            prev = stack;
         }
         std::cout<<std::endl;
    }
-   for(int i=0;i<width;i++){
-    if(i%11==0){
-        std::cout<<" ";
+
+   //ispis dna i naziva pojedinog stoga
+    prev = NULL;
+    for(auto& stack : buffers){
+        if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
+            std::cout<<"   ";
+        }
+        else{
+            std::cout<<" ";
+        }
+        prev = stack;
+        for(int i=0;i<11;i++){
+            std::cout<<"-";
+        }
+    }
+    std::cout<<std::endl;
+
+    prev = NULL;
+    for(auto& stack : buffers){
+    if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
+        std::cout<<"   ";
     }
     else{
-        std::cout<<"-";
+        std::cout<<" ";
     }
-   }
-   std::cout<<std::endl;
-
-   for(auto& stack : buffers){
         std::cout<<std::setw(11)<<stack->getName();
     }
     std::cout<<std::endl;
