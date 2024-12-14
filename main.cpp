@@ -39,9 +39,9 @@ void printEverything(ParsedBuffers pb){
     for (const auto& stack : buffers) {
         maxStackHeight = std::max(maxStackHeight, stack->getSize());
     }
-    int HookIndex = 0 + 5;  //pozvati f-ju kuke koja vrati broj stoga iznad kojeg se nalazi
-    int height=4; //koliko ce redova bit od kuke do dna stogova, bzvz 10 zasad
-    int width=buffers.size()*10 + buffers.size(); //sirina cijelog "prozora" koji prikazuje sve
+    int HookIndex = 5;  //pozvati f-ju kuke koja vrati naziv stoga iznad kojeg se nalazi
+    //int height=4;    ->koliko ce redova bit od kuke do dna stogova, potrebno radi zadrzavanja visine "prozora"
+    int width=buffers.size()*11 + buffers.size() + 4; //sirina cijelog "prozora", 9=ona 3 puta po 3 razmaka
 
     //kuka dio
     for(int i=0;i<width;i++){
@@ -62,7 +62,7 @@ void printEverything(ParsedBuffers pb){
         }
     }
     std::cout<<std::endl; 
-    for(int i=0;i<height;i++){
+    for(int i=0;i<4;i++){
         std::cout<<std::endl;
     }
 
