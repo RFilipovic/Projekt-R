@@ -23,7 +23,9 @@ UntilDueContainer::UntilDueContainer(const std::string &id, const UntilDue &unti
     : Container(id), untilDue(untilDue) {}
 
 void UntilDueContainer::displayDetails() const  {
-    std::cout << id << " " << untilDue.toString() << std::endl;
+    std::string combinedOutput = id + " " + untilDue.toString();
+
+    std::cout << std::setw(11) << combinedOutput;
 }
 
 UntilDue UntilDueContainer::getUntilDue() const { return untilDue; }

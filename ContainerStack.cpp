@@ -37,3 +37,7 @@ void ContainerStack::printStack(){
     }
     std::cout << std::endl;
 }
+
+int ContainerStack::getSize(){
+    return containers.size();
+}

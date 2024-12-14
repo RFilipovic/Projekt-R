@@ -10,6 +10,7 @@ public:
     Container* top() const; 
     bool isEmpty(); 
     void printStack();
+    int getSize();
 protected:
     std::vector<Container*> containers;
 };
