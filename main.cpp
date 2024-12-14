@@ -22,17 +22,25 @@ int main(){
     return 0;
 }
 
-
+bool sameCategoryStack(const std::string &stack1,const std::string &stack2){
+    if(stack1.empty() || stack2.empty()){
+        return false;
+    }
+    if(stack1[0]==stack2[0]){
+        return true;
+    }
+    return false;
+}
 
 void printEverything(ParsedBuffers pb){
-    std::vector<Buffer*> temp = pb.getBuffers();
+    std::vector<Buffer*> buffers = pb.getBuffers();
     int maxStackHeight = 0;
-    for (const auto& stack : temp) {
+    for (const auto& stack : buffers) {
         maxStackHeight = std::max(maxStackHeight, stack->getSize());
     }
     int HookIndex = 0 + 5;  //pozvati f-ju kuke koja vrati broj stoga iznad kojeg se nalazi
     int height=4; //koliko ce redova bit od kuke do dna stogova, bzvz 10 zasad
-    int width=temp.size()*10 + temp.size(); //sirina cijelog "prozora" koji prikazuje sve
+    int width=buffers.size()*10 + buffers.size(); //sirina cijelog "prozora" koji prikazuje sve
 
     for(int i=0;i<width;i++){
         if(i==HookIndex+1){
@@ -57,10 +65,10 @@ void printEverything(ParsedBuffers pb){
     }
 
    for(int currentHeightOfStack = maxStackHeight;currentHeightOfStack>0;currentHeightOfStack--){
-        //prolazit po temp i gledat koliki je size svakog stoga
+        //prolazit po buffers i gledat koliki je size svakog stoga
         // -> ako je jednak chs onda popat element i ispisat ga
         // -> ako nije onda stavit " "
-        for(auto& stack : temp){
+        for(auto& stack : buffers){
             if(currentHeightOfStack == stack->getSize()){
                 Container* el = stack->pop();
                 el->displayDetails();
@@ -82,7 +90,7 @@ void printEverything(ParsedBuffers pb){
    }
    std::cout<<std::endl;
 
-   for(auto& stack : temp){
+   for(auto& stack : buffers){
         std::cout<<std::setw(11)<<stack->getName();
     }
     std::cout<<std::endl;
