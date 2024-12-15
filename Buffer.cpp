@@ -4,7 +4,7 @@
 #include "Buffer.h"
 #include "Container.h"
 
-Buffer::Buffer(int size, const std::string &name) : size(size), ContainerStack(name) {}
+Buffer::Buffer(int size, const std::string &name) : ContainerStack(name), size(size)  {}
 
 bool Buffer::isFull(){
     if(containers.size()>=size){

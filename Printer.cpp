@@ -75,6 +75,16 @@ int Printer::calculateHeight(){
     return maxSize - maxOccupancy;
 }
 
+std::string Printer::centerText(const std::string& text, int width) {
+    if (width <= static_cast<int>(text.size())) {
+        return text; // If the text is longer than or equal to the width, return as is
+    }
+    int padding = width - text.size();
+    int leftPadding = padding / 2;
+    int rightPadding = padding - leftPadding;
+    return std::string(leftPadding, ' ') + text + std::string(rightPadding, ' ');
+}
+
 void Printer::printEverything(){
     std::vector<Buffer*> buffers = pb->getBuffers();
     int maxStackHeight = 0;
@@ -82,7 +92,7 @@ void Printer::printEverything(){
         maxStackHeight = std::max(maxStackHeight, stack->stackOccupancy());
     }
     int HookIndex = 5;  //pozvati f-ju kuke koja vrati naziv stoga iznad kojeg se nalazi
-    //int height=4;    ->koliko ce redova bit od kuke do dna stogova, potrebno radi zadrzavanja visine "prozora"
+    int height=calculateHeight();    //->koliko ce redova bit od kuke do dna stogova, potrebno radi zadrzavanja visine "prozora"
     int width=buffers.size()*11 + buffers.size() + 4; //sirina cijelog "prozora", 9=ona 3 puta po 3 razmaka
 
     //kuka dio
@@ -104,7 +114,7 @@ void Printer::printEverything(){
         }
     }
     std::cout<<std::endl; 
-    for(int i=0;i<4;i++){
+    for(int i=0;i<height;i++){
         std::cout<<std::endl;
     }
 
@@ -123,12 +133,15 @@ void Printer::printEverything(){
                 std::cout<<" ";
             }
             prev = stack;
-            if(currentHeightOfStack == stack->getSize()){
+            if(currentHeightOfStack == stack->stackOccupancy()){
                 Container* el = stack->pop();
-                el->displayDetails();
+                std::string temp = el->getDetails();
+                temp = centerText(temp,11);
+                std::cout<<temp;
             }
             else{
-                std::cout<<std::setw(11)<<"x";
+                std::string temp = centerText(" ",11);
+                std::cout<<temp;
             }
         }
         std::cout<<std::endl;
@@ -152,13 +165,18 @@ void Printer::printEverything(){
 
     prev = NULL;
     for(auto& stack : buffers){
-    if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
-        std::cout<<"   ";
-    }
-    else if(prev!=NULL){
-        std::cout<<" ";
-    }
-        std::cout<<std::setw(11)<<stack->getName();
+        if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
+            std::cout<<"   ";
+        }
+        else if(prev!=NULL){
+            std::cout<<" ";
+        }
+        prev = stack;
+        std::ostringstream oss;
+        oss << stack->getName() << '(' << stack->stackOccupancy() << ')';
+        std::string temp = oss.str();
+        temp = centerText(temp,11);
+        std::cout<<temp;
     }
     std::cout<<std::endl;
 }

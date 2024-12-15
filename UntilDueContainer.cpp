@@ -28,6 +28,10 @@ void UntilDueContainer::displayDetails() const  {
     std::cout << std::setw(11) << combinedOutput;
 }
 
+std::string UntilDueContainer::getDetails() const{
+    return id + " " + untilDue.toString();
+}
+
 UntilDue UntilDueContainer::getUntilDue() const { return untilDue; }
 
 void UntilDueContainer::setUntilDue(const UntilDue &newUntilDue) { untilDue = newUntilDue; }
