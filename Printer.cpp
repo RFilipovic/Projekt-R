@@ -1,9 +1,23 @@
 
 #include "Printer.h"
 
-Printer::Printer(ParsedBuffers &pb/*,Hook* hook*/) : pb(&pb){}
+Printer::Printer(ParsedBuffers &pb/*,Hook* hook*/) : pb(&pb){
+    NArrivals = getNumberOfStacksInSameCategory('A');
+    NBuffers = getNumberOfStacksInSameCategory('B');
+    NHoldovers = getNumberOfStacksInSameCategory('H');
+}
 
 Printer::~Printer() {}
+
+int Printer::getNumberOfStacksInSameCategory(char c){
+    int res = 0;
+    for(auto& stack : pb->getBuffers()){
+        if(stack->getName()[0]==c){
+            res++;
+        }
+    }
+    return res;
+}
 
 bool Printer::sameCategoryStack(const std::string &stack1,const std::string &stack2){
     if(stack1.empty() || stack2.empty()){
