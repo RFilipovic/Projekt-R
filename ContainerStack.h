@@ -11,7 +11,7 @@ public:
     Container* top() const; 
     bool isEmpty(); 
     void printStack();
-    int getSize();
+    int stackOccupancy();
     std::string getName();
 protected:
     std::string name;

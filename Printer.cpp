@@ -58,11 +58,28 @@ int Printer::calculateIndexOfHook(){
     return NArrivals*11+NArrivals+3 + NBuffers*11+NBuffers+3 + (temp+1)*11+temp - 6;
 }
 
+int Printer::calculateHeight(){
+    int maxSize=13;
+    int maxOccupancy=0;
+    std::vector<Buffer*> buffers = pb->getBuffers();
+    for(auto& stack : pb->getBuffers()){
+        if(maxOccupancy<stack->stackOccupancy()){
+            maxOccupancy = stack->stackOccupancy();
+        }
+        if (dynamic_cast<Buffer*>(stack)) {
+            if(maxSize<stack->getSize()){
+                maxSize = stack->getSize();
+            }
+        }
+    }
+    return maxSize - maxOccupancy;
+}
+
 void Printer::printEverything(){
     std::vector<Buffer*> buffers = pb->getBuffers();
     int maxStackHeight = 0;
     for (const auto& stack : buffers) {
-        maxStackHeight = std::max(maxStackHeight, stack->getSize());
+        maxStackHeight = std::max(maxStackHeight, stack->stackOccupancy());
     }
     int HookIndex = 5;  //pozvati f-ju kuke koja vrati naziv stoga iznad kojeg se nalazi
     //int height=4;    ->koliko ce redova bit od kuke do dna stogova, potrebno radi zadrzavanja visine "prozora"

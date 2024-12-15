@@ -8,6 +8,7 @@ public:
     Buffer(int size, const std::string &name);
     bool isFull();
     bool push(Container &container) override;
+    int getSize();
 private:
     int size;
 };

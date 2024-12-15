@@ -20,3 +20,7 @@ bool Buffer::push(Container &container){
     }
     return false;
 }
+
+int Buffer::getSize(){
+    return size;
+}
