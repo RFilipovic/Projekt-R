@@ -16,10 +16,11 @@ int main(){
     Printer *p = new Printer(*data);
 
     p->printEverything();
+    p->printEverything();
 
     return 0;
 }
 
 //potrebna f-ja za smanjivanje vremena na svakom kontejneru
 
-//g++ main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp
+//g++ main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp Printer.cpp

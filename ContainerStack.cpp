@@ -47,3 +47,7 @@ int ContainerStack::stackOccupancy(){
 std::string ContainerStack::getName(){
     return name;
 }
+
+std::vector<Container*> ContainerStack::getContainers(){
+    return containers;
+}

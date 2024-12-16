@@ -87,6 +87,14 @@ std::string Printer::centerText(const std::string& text, int width) {
 
 void Printer::printEverything(){
     std::vector<Buffer*> buffers = pb->getBuffers();
+    std::vector<Buffer*> tempStacks;
+    for(auto &stack : buffers){
+        Buffer* nb = new Buffer(stack->getSize(),stack->getName());
+        for(auto &container : stack->getContainers()){
+            nb->push(*container);   
+        }
+        tempStacks.push_back(nb);
+    }
     int maxStackHeight = 0;
     for (const auto& stack : buffers) {
         maxStackHeight = std::max(maxStackHeight, stack->stackOccupancy());
@@ -120,12 +128,12 @@ void Printer::printEverything(){
 
     //stogovi dio
     ContainerStack* prev = NULL;
-   for(int currentHeightOfStack = maxStackHeight;currentHeightOfStack>0;currentHeightOfStack--){
+    for(int currentHeightOfStack = maxStackHeight;currentHeightOfStack>0;currentHeightOfStack--){
         //prolazit po buffers i gledat koliki je size svakog stoga
         // -> ako je jednak chs onda popat element i ispisat ga
         // -> ako nije onda stavit " "
         prev = NULL;
-        for(auto& stack : buffers){
+        for(auto& stack : tempStacks){
             if(prev!=NULL && !sameCategoryStack(prev->getName(),stack->getName())){
                 std::cout<<"   ";
             }
@@ -178,5 +186,6 @@ void Printer::printEverything(){
         temp = centerText(temp,11);
         std::cout<<temp;
     }
+    std::cout<<std::endl;
     std::cout<<std::endl;
 }

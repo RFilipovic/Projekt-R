@@ -13,6 +13,7 @@ public:
     void printStack();
     int stackOccupancy();
     std::string getName();
+    std::vector<Container*> getContainers();
 protected:
     std::string name;
     std::vector<Container*> containers;
