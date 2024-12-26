@@ -6,11 +6,7 @@
 
 UntilDue::UntilDue() {}
 
-UntilDue::UntilDue(int minutes, int seconds) : minutes(minutes), seconds(seconds) {
-    if (minutes < 0 || seconds < 0 || seconds >= 60) {
-        throw std::invalid_argument("Invalid time format");
-    }
-}
+UntilDue::UntilDue(int minutes, int seconds) : minutes(minutes), seconds(seconds) {}
 
 std::string UntilDue::toString() const {
     std::ostringstream oss;

@@ -105,7 +105,15 @@ void ParsedBuffers::refreshTime(UntilDue time){
     for(Buffer *buffer : buffers){
         for(Container *container : buffer->getContainers()){
             UntilDueContainer *udc = dynamic_cast<UntilDueContainer*>(container);
-            UntilDue time(udc->getUntilDue().getMinutes()-refreshMinutes, udc->getUntilDue().getSeconds() - refreshSeconds);
+            
+            int min = udc->getUntilDue().getMinutes()-refreshMinutes, sec = udc->getUntilDue().getSeconds() - refreshSeconds;
+
+            if(min > 0 && sec < 0 || min <= 0 && sec <= -60){
+                min -= 1;
+                sec += 60;
+            }
+
+            UntilDue time(min, sec);
             udc->setUntilDue(time);
         }
     }

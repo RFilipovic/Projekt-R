@@ -32,6 +32,9 @@ int main(){
         std::cin>>input2;
 
         crane->setAboveStackIndex(input1);
+        
+        data->refreshTime(move);
+
         UntilDueContainer *container = static_cast<UntilDueContainer*>(data->getBuffers().at(input1)->pop());
         crane->setHookContent(container);
         std::cout<<"Podignut je kontejner "<< container->getDetails()<<std::endl;
@@ -49,4 +52,4 @@ int main(){
     return 0;
 }
 
-//g++ main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp Printer.cpp
+//g++ main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp Printer.cpp Crane.cpp
