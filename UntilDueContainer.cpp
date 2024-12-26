@@ -19,13 +19,37 @@ std::string UntilDue::toString() const {
     return oss.str();
 }
 
+void UntilDue::setMinutes(int minutes){
+    this->minutes = minutes;
+}
+
+int UntilDue::getMinutes(){
+    return minutes;
+}
+
+void UntilDue::setSeconds(int seconds){
+    this->seconds = seconds;
+}
+
+int UntilDue::getSeconds(){
+    return seconds;
+}
+
+UntilDueContainer::UntilDueContainer() {}
+
 UntilDueContainer::UntilDueContainer(const std::string &id, const UntilDue &untilDue)
     : Container(id), untilDue(untilDue) {}
 
 void UntilDueContainer::displayDetails() const  {
-    std::cout << id << " " << untilDue.toString() << std::endl;
+    std::string combinedOutput = id + " " + untilDue.toString();
+
+    std::cout << std::setw(11) << combinedOutput;
+}
+
+std::string UntilDueContainer::getDetails() const{
+    return id + " " + untilDue.toString();
 }
 
 UntilDue UntilDueContainer::getUntilDue() const { return untilDue; }
 
-void UntilDueContainer::setUntilDue(const UntilDue &newUntilDue) { untilDue = newUntilDue; }
+void UntilDueContainer::setUntilDue(UntilDue &newUntilDue) { untilDue = newUntilDue; }

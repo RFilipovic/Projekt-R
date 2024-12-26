@@ -51,6 +51,7 @@ UntilDue ParsedBuffers::parseUntilDue(const std::string &input){
 
 std::vector<Buffer*> ParsedBuffers::parseBuffers(const std::string &line){
     std::vector<std::string> bufferNames = splitStringByRegex(line, '|');
+    stackNames = bufferNames;
 
     std::vector<Buffer*> namedBuffers;
     for(int i = 0; i < bufferNames.size(); i++)
@@ -91,4 +92,21 @@ void ParsedBuffers::parseLines(){
     craneLower = parseUntilDue(getDataBetweenTags(getLines().at(4), "<CRANE LOWER>", "</CRANE LOWER>"));
     buffers = parseBuffers(getLines().at(5));
     parseContainers();
+}
+
+std::vector<std::string> ParsedBuffers::getStackNames(){
+    return stackNames;
+}
+
+void ParsedBuffers::refreshTime(UntilDue time){
+    int refreshSeconds = time.getSeconds();
+    int refreshMinutes = time.getMinutes();
+
+    for(Buffer *buffer : buffers){
+        for(Container *container : buffer->getContainers()){
+            UntilDueContainer *udc = dynamic_cast<UntilDueContainer*>(container);
+            UntilDue time(udc->getUntilDue().getMinutes()-refreshMinutes, udc->getUntilDue().getSeconds() - refreshSeconds);
+            udc->setUntilDue(time);
+        }
+    }
 }

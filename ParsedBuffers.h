@@ -16,6 +16,8 @@ class ParsedBuffers : public InitialStateReader {
         UntilDue getCraneLower();
         std::vector<Buffer*> getBuffers();
         void displayBuffers();
+        std::vector<std::string> getStackNames();
+        void refreshTime(UntilDue time);
     private:
         int bufferSize;
         UntilDue clearingTime;
@@ -23,6 +25,7 @@ class ParsedBuffers : public InitialStateReader {
         UntilDue craneMove;
         UntilDue craneLower;
         std::vector<Buffer*> buffers;
+        std::vector<std::string> stackNames;
 
         std::string getDataBetweenTags(
             const std::string line,
