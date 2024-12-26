@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <iomanip>
 
 #include "ParsedBuffers.h"
@@ -20,4 +20,6 @@ public:
     Printer(ParsedBuffers &pb , Crane &crane);
     ~Printer();
     void printEverything();
+    ParsedBuffers *getParsedBuffers();
+    Crane *getCrane();
 };

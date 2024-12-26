@@ -189,3 +189,11 @@ void Printer::printEverything(){
     std::cout<<std::endl;
     std::cout<<std::endl;
 }
+
+ParsedBuffers* Printer::getParsedBuffers(){
+    return pb;
+}
+
+Crane* Printer::getCrane(){
+    return crane;
+}
