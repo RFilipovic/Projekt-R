@@ -2,24 +2,25 @@
 #define SINGLECONTAINERCRANE_H
 
 #include "Crane.h"
+#include "containers.h"
 
-class SingleContainerCrane : public Crane
+class SingleContainerCrane : public Crane<Container>
 {
 private:
-    void *container; // Pokazivač na kontejner
+    Container *container; // Pokazivač na kontejner
 
 public:
-    // Konstruktor samo s imenom
     SingleContainerCrane(const std::string &name)
-        : Crane(name) {}
+        : Crane<Container>(name), container(nullptr) {}
 
-    // Implementacija apstraktnih metoda
-    void *getHookContent() const override
+    ~SingleContainerCrane() override = default;
+
+    Container *getHookContent() const override
     {
         return container;
     }
 
-    void setHookContent(void *newContents) override
+    void setHookContent(Container *newContents) override
     {
         container = newContents;
     }

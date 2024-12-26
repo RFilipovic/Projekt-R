@@ -3,6 +3,7 @@
 
 #include <string>
 
+template <typename T>
 class Crane
 {
 protected:
@@ -10,19 +11,18 @@ protected:
     int indexAboveStack;
 
 public:
-    Crane(const std::string &name);
+    Crane(const std::string &name) : name(name), indexAboveStack(0) {}
 
     virtual ~Crane() = default;
 
-    std::string getName() const;
-    void setName(const std::string &newName);
+    std::string getName() const { return name; }
+    void setName(const std::string &newName) { name = newName; }
 
-    int getIndexAboveStack() const;
-    void setIndexAboveStack(int newIndexAboveStack);
+    int getIndexAboveStack() const { return indexAboveStack; }
+    void setIndexAboveStack(int newIndexAboveStack) { indexAboveStack = newIndexAboveStack; }
 
-    // Apstraktne metode za sadržaj kuke
-    virtual void *getHookContent() const = 0;
-    virtual void setHookContent(void *newContents) = 0;
+    virtual T *getHookContent() const = 0;
+    virtual void setHookContent(T *newContents) = 0;
 };
 
-#endif
+#endif // CRANE_H
