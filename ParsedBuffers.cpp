@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "ParsedBuffers.h"
+#include "EntryContainerStack.h"
 
 ParsedBuffers::ParsedBuffers(const std::string &filename) : InitialStateReader(filename) {
     parseLines();
@@ -54,8 +55,10 @@ std::vector<Buffer*> ParsedBuffers::parseBuffers(const std::string &line){
     stackNames = bufferNames;
 
     std::vector<Buffer*> namedBuffers;
-    for(int i = 0; i < bufferNames.size(); i++)
-        namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+    for(int i = 0; i < bufferNames.size(); i++){
+        if(i == 0) namedBuffers.push_back(new EntryContainerStack());
+        else namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+    }
 
     return namedBuffers;
 }

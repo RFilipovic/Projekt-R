@@ -1,6 +1,8 @@
 #ifndef CONTAINERSTACK_H 
 #define CONTAINERSTACK_H
 
+#include <vector>
+
 #include "Container.h"
 
 class ContainerStack {

@@ -1,17 +1,33 @@
 #include <unistd.h>
+#include <thread>
 
 #include "HotStorageSimulator.h"
+#include "EntryContainerStack.h"
 
 HotStorageSimulator::HotStorageSimulator(Printer &p){
         *this->printer = p;
 }
 
-void HotStorageSimulator::simulate(){
+//dretvene funkcije
+//pokrece dolazni stog paralelno
+void HotStorageSimulator::runEntryStack(){
 
+    auto data = printer->getParsedBuffers();
+    EntryContainerStack *entryStack = dynamic_cast<EntryContainerStack*>(data->getBuffers().at(0));
+
+    while (1)
+    {
+        entryStack->startAutoAddContainers(1, 4);
+    }
+}
+
+//pokrece kuku paralelno
+void HotStorageSimulator::runCrane(){
     printer->printEverything();
 
     auto data = printer->getParsedBuffers();
     SingleContainerCrane *crane = dynamic_cast<SingleContainerCrane*>(printer->getCrane());
+    EntryContainerStack *entryStack = dynamic_cast<EntryContainerStack*>(data->getBuffers().at(0));
 
     UntilDue lower = data->getCraneLower();
     UntilDue move = data->getCraneMove();
@@ -28,8 +44,13 @@ void HotStorageSimulator::simulate(){
         if(input1 == input2){
             std::cout<<"Ne mozete premjestiti kontejner na isti stog!"<<std::endl;
             continue;
+        }else if(input2 == 0){
+            std::cout<<"Ne mozete stavljati kontejnere na dolazni stog!"<<std::endl;
+            continue;
         }
 
+        if(input1 != 0) entryStack->continueTime();
+        
         if(input1 != crane->getAboveStackIndex()){
             data->refreshTime(move);
             sleep(move.getMinutes() * 60 + move.getSeconds());
@@ -45,6 +66,8 @@ void HotStorageSimulator::simulate(){
 
         UntilDueContainer *container = static_cast<UntilDueContainer*>(data->getBuffers().at(input1)->pop());
         crane->setHookContent(container);
+
+        entryStack->continueTime();
 
         data->refreshTime(lift);
         sleep(lift.getMinutes() * 60 + lift.getSeconds());
@@ -75,5 +98,22 @@ void HotStorageSimulator::simulate(){
         sleep(lift.getMinutes() * 60 + lift.getSeconds());
         std::cout<<"Kuka spremna za iducu naredbu —>"<<std::endl;
         printer->printEverything();
+
+        entryStack->pauseTime();
     }
+}
+
+//pokrece odlazni stog paralelno
+void HotStorageSimulator::runOutgoingStack(){
+
+}
+
+void HotStorageSimulator::simulate(){
+    
+    std::thread entryStack([this]() { this->runEntryStack(); });
+    std::thread crane([this]() { this->runCrane(); });
+
+    entryStack.join();
+    crane.join();
+    
 }

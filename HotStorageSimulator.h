@@ -5,12 +5,15 @@
 #include "Printer.h"
 #include "ParsedBuffers.h"
 
-class HotStorageSimulator{
+class HotStorageSimulator {
 public:
     HotStorageSimulator(Printer &p);
     void simulate();
 private:
     Printer *printer;
+    void runEntryStack();
+    void runCrane();
+    void runOutgoingStack();
 };
 
 #endif //SIMULATOR_H
