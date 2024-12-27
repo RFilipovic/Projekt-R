@@ -4,18 +4,18 @@
 #include <iostream>
 #include <string>
 #include <chrono>
-#include "ContainerStack.h"
+#include "Buffer.h"
 
-class OutgoingContainerStack : public ContainerStack {
+class OutGoingContainerStack : public Buffer {
 private:
-    bool& pauseFlag; // Reference to the shared pause flag
+    int &pauseFlag; // Reference to the shared pause flag
 
 public:
     // Constructor accepting a reference to the shared pause flag
-    OutgoingContainerStack(bool& sharedPauseFlag);
+    OutGoingContainerStack(int &sharedPauseFlag);
 
     // Method to pop containers from the stack every 5 minutes
-    void startPoppingContainers(double popDelayInMinutes);
+    void startPoppingContainers(int popDelay);
 };
 
 #endif // OUTGOINGCONTAINERSTACK_H

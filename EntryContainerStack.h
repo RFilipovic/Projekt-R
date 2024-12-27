@@ -17,7 +17,7 @@ public:
     void startAutoAddContainers(int iterations, double delayInSeconds);
     void pauseTime();
     void continueTime();
-    int getPauseFlag();
+    int &getPauseFlag();
 };
 
 #endif // ENTRYCONTAINERSTACK_H

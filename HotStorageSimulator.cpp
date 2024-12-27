@@ -3,6 +3,7 @@
 
 #include "HotStorageSimulator.h"
 #include "EntryContainerStack.h"
+#include "OutGoingContainerStack.h"
 
 HotStorageSimulator::HotStorageSimulator(Printer &p){
         *this->printer = p;
@@ -106,12 +107,20 @@ void HotStorageSimulator::runCrane(){
 //pokrece odlazni stog paralelno
 void HotStorageSimulator::runOutgoingStack(){
 
+    auto data = printer->getParsedBuffers();
+    OutGoingContainerStack *outgoingStack = dynamic_cast<OutGoingContainerStack*>(data->getBuffers().at(4));
+
+    while (1)
+    {
+        outgoingStack->startPoppingContainers(data->getClearingTime().getSeconds() + data->getClearingTime().getMinutes() * 60);
+    }
 }
 
 void HotStorageSimulator::simulate(){
     
     std::thread entryStack([this]() { this->runEntryStack(); });
     std::thread crane([this]() { this->runCrane(); });
+    std::thread outgoingStack([this]() { this->runOutgoingStack(); });
 
     entryStack.join();
     crane.join();

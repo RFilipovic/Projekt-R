@@ -38,6 +38,6 @@ void EntryContainerStack::startAutoAddContainers(int iterations, double delayInS
     }
 }
 
-int EntryContainerStack::getPauseFlag(){
+int &EntryContainerStack::getPauseFlag(){
     return pauseFlag;
 }
