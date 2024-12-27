@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "ParsedBuffers.h"
 #include "HotStorageSimulator.h"
 
 int main(){
@@ -16,4 +15,4 @@ int main(){
     return 0;
 }
 
-//g++ main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp Printer.cpp Crane.cpp HotStorageSimulator.cpp
+//g++ -g main.cpp ParsedBuffers.cpp InitialStateReader.cpp ContainerStack.cpp Buffer.cpp Container.cpp UntilDueContainer.cpp Printer.cpp Crane.cpp HotStorageSimulator.cpp SingleContainerCrane.cpp

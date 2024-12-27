@@ -24,6 +24,8 @@ public:
         this->container = static_cast<UntilDueContainer*>(newContents);
     }
 
+    void refreshTime(UntilDue time);
+
 };
 
 #endif // SINGLECONTAINERCRANE_H

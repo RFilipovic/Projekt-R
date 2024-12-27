@@ -11,7 +11,7 @@ void HotStorageSimulator::simulate(){
     printer->printEverything();
 
     auto data = printer->getParsedBuffers();
-    auto crane = printer->getCrane();
+    SingleContainerCrane *crane = dynamic_cast<SingleContainerCrane*>(printer->getCrane());
 
     UntilDue lower = data->getCraneLower();
     UntilDue move = data->getCraneMove();
@@ -48,6 +48,7 @@ void HotStorageSimulator::simulate(){
 
         data->refreshTime(lift);
         sleep(lift.getMinutes() * 60 + lift.getSeconds());
+        crane->refreshTime(lift);
 
         std::cout<<"Podignut je kontejner "<< container->getDetails()<<std::endl;
 
@@ -56,11 +57,13 @@ void HotStorageSimulator::simulate(){
         crane->setAboveStackIndex(input2);
 
         data->refreshTime(move);
+        crane->refreshTime(move);
         sleep(move.getMinutes() * 60 + move.getSeconds());
         std::cout<<"Kuka je pomaknuta iznad stoga "<< crane->getAboveStack() <<std::endl;
         printer->printEverything();
 
         data->refreshTime(lower);
+        crane->refreshTime(lower);
         std::cout<<"Kuka se spusta."<<std::endl;
         sleep(lower.getMinutes() * 60 + lower.getSeconds());
 
