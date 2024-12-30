@@ -4,7 +4,9 @@
 #include <cstdlib>
 #include "EntryContainerStack.h"
 
-EntryContainerStack::EntryContainerStack() : containerId(1), Buffer(20, "A0") {}
+EntryContainerStack::EntryContainerStack() : containerId(1), Buffer(20, "A0") {
+    pauseTime();
+}
 
 void EntryContainerStack::pauseTime(){
     pauseFlag = 1;

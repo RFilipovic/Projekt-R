@@ -4,7 +4,7 @@
 #include "OutGoingContainerStack.h"
 
 OutGoingContainerStack::OutGoingContainerStack(int &sharedPauseFlag)
-    : pauseFlag(sharedPauseFlag), Buffer(1, "H0") {}
+    : pauseFlag(sharedPauseFlag), Buffer(10, "H0") {}
 
 void OutGoingContainerStack::startPoppingContainers(int popDelay) {
     while (!isEmpty()) {

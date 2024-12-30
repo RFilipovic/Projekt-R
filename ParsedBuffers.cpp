@@ -57,6 +57,7 @@ std::vector<Buffer*> ParsedBuffers::parseBuffers(const std::string &line){
 
     std::vector<Buffer*> namedBuffers;
     for(int i = 0; i < bufferNames.size(); i++){
+        
         if(i == 0) namedBuffers.push_back(new EntryContainerStack());
         else if(i == bufferNames.size() - 1) {
         

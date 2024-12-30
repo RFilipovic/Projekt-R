@@ -48,6 +48,9 @@ void HotStorageSimulator::runCrane(){
         }else if(input2 == 0){
             std::cout<<"Ne mozete stavljati kontejnere na dolazni stog!"<<std::endl;
             continue;
+        }else if(input1 == 4){
+            std::cout<<"Ne mozete uzimati kontejnere sa odlaznog stoga!"<<std::endl;
+            continue;
         }
 
         if(input1 != 0) entryStack->continueTime();
@@ -91,7 +94,11 @@ void HotStorageSimulator::runCrane(){
         std::cout<<"Kuka se spusta."<<std::endl;
         sleep(lower.getMinutes() * 60 + lower.getSeconds());
 
-        data->getBuffers().at(input2)->push(*container);
+        if(input2 != 4)
+            data->getBuffers().at(input2)->push(*container);
+        else
+            data->getBuffers().at(input2)->push_infront(*container);
+
         std::cout<<"Kuka je ostavila kontejner na stog i pocela se dizat."<<std::endl;
         printer->printEverything();
 

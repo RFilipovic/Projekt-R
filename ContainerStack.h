@@ -16,6 +16,7 @@ public:
     int stackOccupancy();
     std::string getName();
     std::vector<Container*> getContainers();
+    bool push_infront(Container &container);
 protected:
     std::string name;
     std::vector<Container*> containers;

@@ -51,3 +51,8 @@ std::string ContainerStack::getName(){
 std::vector<Container*> ContainerStack::getContainers(){
     return containers;
 }
+
+bool ContainerStack::push_infront(Container &container){
+    containers.insert(containers.begin(), &container);
+    return true;
+}
