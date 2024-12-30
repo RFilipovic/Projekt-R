@@ -18,7 +18,7 @@ void HotStorageSimulator::runEntryStack(){
 
     while (1)
     {
-        entryStack->startAutoAddContainers(1, 4);
+        entryStack->startAutoAddContainers(1, 5);
     }
 }
 
@@ -29,6 +29,7 @@ void HotStorageSimulator::runCrane(){
     auto data = printer->getParsedBuffers();
     SingleContainerCrane *crane = dynamic_cast<SingleContainerCrane*>(printer->getCrane());
     EntryContainerStack *entryStack = dynamic_cast<EntryContainerStack*>(data->getBuffers().at(0));
+    OutGoingContainerStack *outgoingStack = dynamic_cast<OutGoingContainerStack*>(data->getBuffers().at(4));
 
     UntilDue lower = data->getCraneLower();
     UntilDue move = data->getCraneMove();
@@ -52,6 +53,8 @@ void HotStorageSimulator::runCrane(){
             std::cout<<"Ne mozete uzimati kontejnere sa odlaznog stoga!"<<std::endl;
             continue;
         }
+
+        outgoingStack->continueTime();
 
         if(input1 != 0) entryStack->continueTime();
         
@@ -108,6 +111,7 @@ void HotStorageSimulator::runCrane(){
         printer->printEverything();
 
         entryStack->pauseTime();
+        outgoingStack->pauseTime();
     }
 }
 

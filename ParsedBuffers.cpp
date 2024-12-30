@@ -58,15 +58,12 @@ std::vector<Buffer*> ParsedBuffers::parseBuffers(const std::string &line){
     std::vector<Buffer*> namedBuffers;
     for(int i = 0; i < bufferNames.size(); i++){
         
-        if(i == 0) namedBuffers.push_back(new EntryContainerStack());
-        else if(i == bufferNames.size() - 1) {
-        
-        EntryContainerStack *stack = dynamic_cast<EntryContainerStack*>(namedBuffers.at(0));
-        if(stack){
-            int &pauseFlag = stack->getPauseFlag();
-            namedBuffers.push_back(new OutGoingContainerStack(pauseFlag));
-        }
-        } else namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+        if(i == 0) 
+            namedBuffers.push_back(new EntryContainerStack());
+        else if(i == bufferNames.size() - 1) 
+            namedBuffers.push_back(new OutGoingContainerStack());
+        else
+            namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
     }
 
     return namedBuffers;

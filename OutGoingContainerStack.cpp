@@ -3,8 +3,10 @@
 
 #include "OutGoingContainerStack.h"
 
-OutGoingContainerStack::OutGoingContainerStack(int &sharedPauseFlag)
-    : pauseFlag(sharedPauseFlag), Buffer(10, "H0") {}
+OutGoingContainerStack::OutGoingContainerStack()
+    : Buffer(10, "H0") {
+        pauseTime();
+    }
 
 void OutGoingContainerStack::startPoppingContainers(int popDelay) {
     while (!isEmpty()) {
