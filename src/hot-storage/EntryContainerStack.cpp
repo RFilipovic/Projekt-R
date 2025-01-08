@@ -33,8 +33,11 @@ void EntryContainerStack::startAutoAddContainers(int iterations, double delayInS
         int randMinutes = std::rand() % 4;
         int randSeconds = std::rand() % 60;
 
+        std::string name = "B";
+        name.append(std::to_string(containerId));
+
         UntilDue randUntilDue(randMinutes, randSeconds);
-        Container* newContainer = new UntilDueContainer(std::to_string(containerId), randUntilDue);
+        Container* newContainer = new UntilDueContainer(name, randUntilDue);
 
         push(*newContainer);
     }
