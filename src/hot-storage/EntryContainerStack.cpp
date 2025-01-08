@@ -39,7 +39,7 @@ void EntryContainerStack::startAutoAddContainers(int iterations, double delayInS
         UntilDue randUntilDue(randMinutes, randSeconds);
         Container* newContainer = new UntilDueContainer(name, randUntilDue);
 
-        push(*newContainer);
+        push_infront(*newContainer);
     }
 }
 

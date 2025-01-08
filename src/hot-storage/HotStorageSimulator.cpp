@@ -54,9 +54,8 @@ void HotStorageSimulator::runCrane(){
             continue;
         }
 
+        entryStack->continueTime();
         outgoingStack->continueTime();
-
-        if(input1 != 0) entryStack->continueTime();
         
         if(input1 != crane->getAboveStackIndex()){
             data->refreshTime(move);
@@ -73,8 +72,6 @@ void HotStorageSimulator::runCrane(){
 
         UntilDueContainer *container = static_cast<UntilDueContainer*>(data->getBuffers().at(input1)->pop());
         crane->setHookContent(container);
-
-        entryStack->continueTime();
 
         data->refreshTime(lift);
         sleep(lift.getMinutes() * 60 + lift.getSeconds());
