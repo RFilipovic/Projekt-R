@@ -14,3 +14,11 @@ void PriorityContainer::displayDetails() const {
 std::string PriorityContainer::getDetails() const{
         return id + " " + std::to_string(priority) + " " + colour;
 }
+
+int PriorityContainer::getPriority(){
+        return priority;
+}
+
+std::string PriorityContainer::getColour(){
+        return colour;
+}
