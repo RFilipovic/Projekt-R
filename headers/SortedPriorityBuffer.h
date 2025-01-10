@@ -6,7 +6,7 @@
 class SortedPriorityBuffer : public PriorityBuffer {
 public:
     SortedPriorityBuffer(int size, const std::string &name);
-    bool push(PriorityContainer &container) override;
+    bool push(PriorityContainer &container);
     bool push_multiple(std::vector<PriorityContainer*> priorityContainers);
 };
 

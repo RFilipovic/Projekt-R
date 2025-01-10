@@ -1,22 +1,19 @@
 #include <string>
 #include <vector>
 
-#include "SortedPriorityBuffer.h"
+#include "PriorityOutGoingContainerStack.h"
 
-SortedPriorityBuffer::SortedPriorityBuffer(int size, const std::string &name) : PriorityBuffer(size, name)  {}
-        
-bool SortedPriorityBuffer::push(PriorityContainer &container) {
-    if(containers.size()!=0){
-        auto topContainer = containers.back();
-        if(container.getColour()!=topContainer->getColour() || container.getPriority()<topContainer->getPriority()){
-            return false;
-        }
+PriorityOutGoingContainerStack::PriorityOutGoingContainerStack(int size, const std::string &name, std::string colour)
+             : SortedPriorityBuffer(size,name), colour(colour) {}
+
+bool PriorityOutGoingContainerStack::push(PriorityContainer &container){
+    if(container.getColour()!=colour){
+        return false;
     }
-
-    PriorityBuffer::push(container);
+    SortedPriorityBuffer::push(container);
 }
 
-bool SortedPriorityBuffer::push_multiple(std::vector<PriorityContainer*> priorityContainers){
+bool PriorityOutGoingContainerStack::push_multiple(std::vector<PriorityContainer*> priorityContainers){
     if(priorityContainers.size() + containers.size() > size){
         return false;
     }

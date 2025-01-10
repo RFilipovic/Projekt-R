@@ -9,8 +9,7 @@ public:
     bool isFull();
     bool push(PriorityContainer &container) override;
     bool push_multiple(std::vector<PriorityContainer*> priorityContainers);
-    int getSize();
-private:
+protected:
     int size;
 };
 

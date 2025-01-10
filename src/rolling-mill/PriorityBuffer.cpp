@@ -27,7 +27,3 @@ bool PriorityBuffer::push_multiple(std::vector<PriorityContainer*> priorityConta
     }
     PriorityContainerStack::push_multiple(priorityContainers);
 }
-
-int PriorityBuffer::getSize(){
-    return size;
-}
