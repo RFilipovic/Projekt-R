@@ -4,16 +4,22 @@
 #include "ParsedBuffers.h"
 #include "EntryContainerStack.h"
 #include "OutGoingContainerStack.h"
+#include "PriorityContainer.h"
 
 ParsedBuffers::ParsedBuffers(const std::string &filename) : InitialStateReader(filename) {
     parseLines();
 }
 
+
+
 int ParsedBuffers::getBufferSize(){ return bufferSize;}
 UntilDue ParsedBuffers::getClearingTime(){ return clearingTime;}
-UntilDue ParsedBuffers::getCraneLift(){ return craneLift;}
-UntilDue ParsedBuffers::getCraneMove(){ return craneMove;}
-UntilDue ParsedBuffers::getCraneLower(){ return craneLower;}
+UntilDue ParsedBuffers::getCraneLiftC1(){ return craneLift;}
+UntilDue ParsedBuffers::getCraneMoveC1(){ return craneMove;}
+UntilDue ParsedBuffers::getCraneLowerC1(){ return craneLower;}
+UntilDue ParsedBuffers::getCraneLiftC2(){ return craneLiftC2;}
+UntilDue ParsedBuffers::getCraneMoveC1(){ return craneMoveC2;}
+UntilDue ParsedBuffers::getCraneLowerC1(){ return craneLowerC2;}
 std::vector<Buffer*> ParsedBuffers::getBuffers(){ return buffers;}
 
 void ParsedBuffers::displayBuffers(){
@@ -56,51 +62,69 @@ std::vector<Buffer*> ParsedBuffers::parseBuffers(const std::string &line){
     stackNames = bufferNames;
 
     std::vector<Buffer*> namedBuffers;
-    for(int i = 0; i < bufferNames.size(); i++){
-        
-        if(i == 0) 
+    for (int i = 0; i < bufferNames.size(); ++i) {
+        if (i < 3) {  // First 3 are incoming stacks
             namedBuffers.push_back(new EntryContainerStack());
-        else if(i == bufferNames.size() - 1) 
-            namedBuffers.push_back(new OutGoingContainerStack());
-        else
+        } else if (i < 6) {  // Next 3 are unsorted buffers
             namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+        } else if (i < 9) {  // Next 3 are sorted buffers
+            namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+        } else if (i == 9) {  // Blue outgoing stack
+            blueOutgoingStack = new OutGoingContainerStack();
+            namedBuffers.push_back(blueOutgoingStack);
+        } else if (i == 10) {  // Purple outgoing stack
+            purpleOutgoingStack = new OutGoingContainerStack();
+            namedBuffers.push_back(purpleOutgoingStack);
+        }
     }
 
     return namedBuffers;
 }
 
-UntilDueContainer* ParsedBuffers::parseContainer(const std::string &containerDefinition){
-    int openParen = containerDefinition.find('(');
-    int closeParen = containerDefinition.find(')');
+PriorityContainer* ParsedBuffers::parseContainer(const std::string &containerDefinition) {    
+    int firstSlash = containerDefinition.find('/');
+    int secondSlash = containerDefinition.find('/', firstSlash + 1);
 
-    if (openParen == std::string::npos || closeParen == std::string::npos || closeParen < openParen)
-        throw std::invalid_argument("Invalid container definition format");
+    if (firstSlash == std::string::npos || secondSlash == std::string::npos)
+        throw std::invalid_argument("Invalid container definition format. Expected format: id/priority/destination");
 
-    std::string id = containerDefinition.substr(0, openParen);
-    std::string timeStr = containerDefinition.substr(openParen + 1, closeParen - openParen - 1);
-    UntilDue untilDue = parseUntilDue(timeStr);
+    std::string id = containerDefinition.substr(0, firstSlash);
+    int priority = std::stoi(containerDefinition.substr(firstSlash + 1, secondSlash - firstSlash - 1));
+    std::string destination = containerDefinition.substr(secondSlash + 1);
 
-    return new UntilDueContainer(id, untilDue);
+    
+    return new PriorityContainer(id, priority, destination);
 }
 
 void ParsedBuffers::parseContainers(){
-    for(int i = 6; i < getLines().size(); i++){
+    for(int i = 9; i < getLines().size(); i++){
         int count = getRegexCount(getLines().at(i), '|');
         std::vector<std::string> containers = splitStringByRegex(getLines().at(i), '|');
-        for(int j = 0; j < count + 1; j++)
+        for(int j = 3; j < count + 1; j++)
             if(!containers.at(j).empty())
                 buffers.at(j)->push(*parseContainer(containers.at(j)));
     }
 }
 
-void ParsedBuffers::parseLines(){
-    bufferSize = std::stoi(getDataBetweenTags(getLines().at(0), "<BUFFER SIZE>", "</BUFFER SIZE>"));
-    clearingTime = parseUntilDue(getDataBetweenTags(getLines().at(1), "<CLEARING TIME>", "</CLEARING TIME>"));
-    craneLift = parseUntilDue(getDataBetweenTags(getLines().at(2), "<CRANE LIFT>", "</CRANE LIFT>"));
-    craneMove = parseUntilDue(getDataBetweenTags(getLines().at(3), "<CRANE MOVE>", "</CRANE MOVE>"));
-    craneLower = parseUntilDue(getDataBetweenTags(getLines().at(4), "<CRANE LOWER>", "</CRANE LOWER>"));
-    buffers = parseBuffers(getLines().at(5));
-    parseContainers();
+void ParsedBuffers::parseLines() {
+    
+    std::vector<std::string> lines = getLines();
+
+    bufferSize = std::stoi(getDataBetweenTags(lines.at(0), "<MAX VISINA BUFFERA>", "</MAX VISINA BUFFERA>"));
+
+    clearingTime = parseUntilDue(getDataBetweenTags(lines.at(1), "<clearing time>", "</clearing time>"));
+
+    craneLift = parseUntilDue(getDataBetweenTags(lines.at(2), "<trajanje podizanja C1>", "</trajanje podizanja>"));
+    craneMove = parseUntilDue(getDataBetweenTags(lines.at(3), "<trajanje premještanja C1>", "</trajanje premještanja>"));
+    craneLower = parseUntilDue(getDataBetweenTags(lines.at(4), "<trajanje spuštanja C1>", "</trajanje spuštanja>"));
+
+    craneLiftC2 = parseUntilDue(getDataBetweenTags(lines.at(5), "<trajanje podizanja C2>", "</trajanje podizanja>"));
+    craneMoveC2 = parseUntilDue(getDataBetweenTags(lines.at(6), "<trajanje premještanja C2>", "</trajanje premještanja>"));
+    craneLowerC2 = parseUntilDue(getDataBetweenTags(lines.at(7), "<trajanje spuštanja C2>", "</trajanje spuštanja>"));
+
+    buffers = parseBuffers(getLines().at(8));
+
+    parseContainers(); 
 }
 
 std::vector<std::string> ParsedBuffers::getStackNames(){
