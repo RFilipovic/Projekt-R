@@ -6,7 +6,7 @@
 
 class Printer {
 private:
-    ParsedBuffers* pb;
+    MillBuffers* pb;
     Crane* crane;
     int NArrivals;
     int NBuffers;
@@ -17,9 +17,9 @@ private:
     std::string centerText(const std::string& text, int width);
     bool sameCategoryStack(const std::string &stack1,const std::string &stack2);
 public:
-    Printer(ParsedBuffers &pb , Crane &crane);
+    Printer(MillBuffers &pb , Crane &crane);
     ~Printer();
     void printEverything();
-    ParsedBuffers *getParsedBuffers();
+    MillBuffers *getParsedBuffers();
     Crane *getCrane();
 };

@@ -1,7 +1,7 @@
 
 #include "Printer.h"
 
-Printer::Printer(ParsedBuffers &pb, Crane &crane) : pb(&pb), crane(&crane){
+Printer::Printer(MillBuffers &pb, Crane &crane) : pb(&pb), crane(&crane){
     NArrivals = getNumberOfStacksInSameCategory('A');
     NBuffers = getNumberOfStacksInSameCategory('B');
     NHoldovers = getNumberOfStacksInSameCategory('H');
@@ -190,7 +190,7 @@ void Printer::printEverything(){
     std::cout<<std::endl;
 }
 
-ParsedBuffers* Printer::getParsedBuffers(){
+MillBuffers* Printer::getParsedBuffers(){
     return pb;
 }
 
