@@ -12,8 +12,8 @@ bool SortedPriorityBuffer::push(PriorityContainer &container) {
             return false;
         }
     }
-
     PriorityBuffer::push(container);
+    return true;
 }
 
 bool SortedPriorityBuffer::push_multiple(std::vector<PriorityContainer*> priorityContainers){
@@ -27,6 +27,7 @@ bool SortedPriorityBuffer::push_multiple(std::vector<PriorityContainer*> priorit
         if(former->getColour()!=current->getColour() || former->getPriority()<current->getPriority()){
             return false;
         }
+        return true;
     }
 
     PriorityContainer* lastInVectorFirstToPushOnStack = priorityContainers.back();
@@ -35,4 +36,6 @@ bool SortedPriorityBuffer::push_multiple(std::vector<PriorityContainer*> priorit
     }
     priorityContainers.pop_back();
     PriorityContainerStack::push_multiple(priorityContainers);
+
+    return true;
 }
