@@ -3,3 +3,7 @@
 
 # Ignore Visual Studio Code files and folders
 .vscode/
+
+.build/
+
+*.out

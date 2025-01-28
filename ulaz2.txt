@@ -1,0 +1,15 @@
+<MAX VISINA BUFFERA>10</MAX VISINA BUFFERA>
+<clearing time>00:10</clearing time>
+<trajanje podizanja C1>00:01</trajanje podizanja>
+<trajanje premještanja C1>00:03</trajanje premještanja>
+<trajanje spuštanja C1>00:02</trajanje spuštanja>
+<trajanje podizanja C2>00:02</trajanje podizanja>
+<trajanje premještanja C2>00:04</trajanje premještanja>
+<trajanje spuštanja C2>00:02</trajanje spuštanja>
+A0|A1|A2|B0|B1|B2|SB0|SB1|SB2|HB|HV
+B19/10/B|B21/11/B|B31/15/V|B14/7/B|B11/6/V|B24/12/V|B3/2/V|B10/5/B|B6/3/B
+B26/13/V||B22/11/V|B12/6/B|B7/4/V|B17/9/V|B1/1/V|B4/2/B||
+B37/18/V||B33/16/V|B8/4/B|B5/3/V|B13/7/V||B2/1/B||
+B34/18/B|||B25/13/B|B20/10/V|B29/15/B|||
+|||B23/12/B|B15/8/V|B27/14/B|||
+|||B16/8/B|B9/5/B|B18/9/B|||

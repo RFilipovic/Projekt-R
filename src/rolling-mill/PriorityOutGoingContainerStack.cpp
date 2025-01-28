@@ -11,6 +11,7 @@ bool PriorityOutGoingContainerStack::push(PriorityContainer &container){
         return false;
     }
     SortedPriorityBuffer::push(container);
+    return true;
 }
 
 bool PriorityOutGoingContainerStack::push_multiple(std::vector<PriorityContainer*> priorityContainers){
@@ -32,4 +33,5 @@ bool PriorityOutGoingContainerStack::push_multiple(std::vector<PriorityContainer
     }
     priorityContainers.pop_back();
     PriorityContainerStack::push_multiple(priorityContainers);
+    return true;
 }
