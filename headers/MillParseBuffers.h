@@ -1,17 +1,18 @@
-#ifndef MILLBUFFERS_H
-#define MILLBUFFERS_H
+#ifndef MILLPARSEBUFFERS_H
+#define MILLPARSEBUFFERS_H
 
 #include <vector>
 #include <string.h>
 #include "UntilDueContainer.h"
 #include "InitialStateReader.h"
 #include "PriorityContainer.h"
-#include "OutGoingContainerStack.h"
-#include "Buffer.h"
+#include "PriorityOutGoingContainerStack.h"
+#include "SortedPriorityBuffer.h"
+#include "EntryContainerMill.h"
 
-class MillBuffers : public InitialStateReader {
+class MillParseBuffers : public InitialStateReader {
     public:
-        MillBuffers(const std::string &filename);
+        MillParseBuffers(const std::string &filename);
         int getBufferSize();
         UntilDue getClearingTime();
         UntilDue getCraneLiftC1();
@@ -20,7 +21,7 @@ class MillBuffers : public InitialStateReader {
         UntilDue getCraneLiftC2();
         UntilDue getCraneMoveC2();
         UntilDue getCraneLowerC2();
-        std::vector<Buffer*> getBuffers();
+        std::vector<SortedPriorityBuffer*> getBuffers();
         void displayBuffers();
         std::vector<std::string> getStackNames();
         void refreshTime(UntilDue time);
@@ -31,10 +32,10 @@ class MillBuffers : public InitialStateReader {
         UntilDue craneLift;
         UntilDue craneMove;
         UntilDue craneLower;
-        std::vector<Buffer*> buffers;
+        std::vector<SortedPriorityBuffer*> buffers;
         std::vector<std::string> stackNames;
-        OutGoingContainerStack* blueOutgoingStack;
-        OutGoingContainerStack* purpleOutgoingStack;
+        PriorityOutGoingContainerStack* blueOutgoingStack;
+        PriorityOutGoingContainerStack* purpleOutgoingStack;
         UntilDue craneLiftC2;
         UntilDue craneMoveC2;
         UntilDue craneLowerC2;
@@ -45,7 +46,7 @@ class MillBuffers : public InitialStateReader {
             const std::string closingTag
         );
         UntilDue parseUntilDue(const std::string &input);
-        std::vector<Buffer*> parseBuffers(const std::string &line);
+        std::vector<SortedPriorityBuffer*> parseBuffers(const std::string &line);
         PriorityContainer* parseContainer(const std::string &containerDefinition);
         void parseContainers();
         void parseLines();

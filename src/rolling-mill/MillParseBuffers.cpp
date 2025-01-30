@@ -1,27 +1,27 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "MillBuffers.h"
-#include "EntryContainerStack.h"
-#include "OutGoingContainerStack.h"
+#include "MillParseBuffers.h"
+#include "EntryContainerMill.h"
+#include "PriorityOutGoingContainerStack.h"
 #include "PriorityContainer.h"
 
-MillBuffers::MillBuffers(const std::string &filename) : InitialStateReader(filename)
+MillParseBuffers::MillParseBuffers(const std::string &filename) : InitialStateReader(filename)
 {
     parseLines();
 }
 
-int MillBuffers::getBufferSize() { return bufferSize; }
-UntilDue MillBuffers::getClearingTime() { return clearingTime; }
-UntilDue MillBuffers::getCraneLiftC1() { return craneLift; }
-UntilDue MillBuffers::getCraneMoveC1() { return craneMove; }
-UntilDue MillBuffers::getCraneLowerC1() { return craneLower; }
-UntilDue MillBuffers::getCraneLiftC2() { return craneLiftC2; }
-UntilDue MillBuffers::getCraneMoveC2() { return craneMoveC2; }
-UntilDue MillBuffers::getCraneLowerC2() { return craneLowerC2; }
-std::vector<Buffer *> MillBuffers::getBuffers() { return buffers; }
+int MillParseBuffers::getBufferSize() { return bufferSize; }
+UntilDue MillParseBuffers::getClearingTime() { return clearingTime; }
+UntilDue MillParseBuffers::getCraneLiftC1() { return craneLift; }
+UntilDue MillParseBuffers::getCraneMoveC1() { return craneMove; }
+UntilDue MillParseBuffers::getCraneLowerC1() { return craneLower; }
+UntilDue MillParseBuffers::getCraneLiftC2() { return craneLiftC2; }
+UntilDue MillParseBuffers::getCraneMoveC2() { return craneMoveC2; }
+UntilDue MillParseBuffers::getCraneLowerC2() { return craneLowerC2; }
+std::vector<SortedPriorityBuffer *> MillParseBuffers::getBuffers() { return buffers; }
 
-void MillBuffers::displayBuffers()
+void MillParseBuffers::displayBuffers()
 {
     std::cout << "maxBufferSize: " << bufferSize << std::endl;
     std::cout << "clearingTime: " << clearingTime.toString() << std::endl;
@@ -30,7 +30,7 @@ void MillBuffers::displayBuffers()
     std::cout << "craneLower: " << craneLower.toString() << std::endl;
 }
 
-std::string MillBuffers::getDataBetweenTags(
+std::string MillParseBuffers::getDataBetweenTags(
     const std::string line,
     const std::string openingTag,
     const std::string closingTag)
@@ -46,7 +46,7 @@ std::string MillBuffers::getDataBetweenTags(
     throw std::out_of_range("The tag does not exist");
 }
 
-UntilDue MillBuffers::parseUntilDue(const std::string &input)
+UntilDue MillParseBuffers::parseUntilDue(const std::string &input)
 {
     int regexIndex = input.find(":");
 
@@ -59,34 +59,34 @@ UntilDue MillBuffers::parseUntilDue(const std::string &input)
     return UntilDue(min, sec);
 }
 
-std::vector<Buffer *> MillBuffers::parseBuffers(const std::string &line)
+std::vector<SortedPriorityBuffer *> MillParseBuffers::parseBuffers(const std::string &line)
 {
     std::vector<std::string> bufferNames = splitStringByRegex(line, '|');
     stackNames = bufferNames;
 
-    std::vector<Buffer *> namedBuffers;
+    std::vector<SortedPriorityBuffer *> namedBuffers;
     for (int i = 0; i < bufferNames.size(); ++i)
     {
         if (i < 3)
         { // First 3 are incoming stacks
-            namedBuffers.push_back(new EntryContainerStack());
+            namedBuffers.push_back(new EntryContainerMill());
         }
         else if (i < 6)
         { // Next 3 are unsorted buffers
-            namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+            namedBuffers.push_back(new SortedPriorityBuffer(bufferSize, bufferNames.at(i)));
         }
         else if (i < 9)
         { // Next 3 are sorted buffers
-            namedBuffers.push_back(new Buffer(bufferSize, bufferNames.at(i)));
+            namedBuffers.push_back(new SortedPriorityBuffer(bufferSize, bufferNames.at(i)));
         }
         else if (i == 9)
         { // Blue outgoing stack
-            blueOutgoingStack = new OutGoingContainerStack();
+            blueOutgoingStack = new PriorityOutGoingContainerStack(bufferSize, "Blue", "Blue");
             namedBuffers.push_back(blueOutgoingStack);
         }
         else if (i == 10)
         { // Purple outgoing stack
-            purpleOutgoingStack = new OutGoingContainerStack();
+            purpleOutgoingStack = new PriorityOutGoingContainerStack(bufferSize, "Purple", "Purple");
             namedBuffers.push_back(purpleOutgoingStack);
         }
     }
@@ -94,7 +94,7 @@ std::vector<Buffer *> MillBuffers::parseBuffers(const std::string &line)
     return namedBuffers;
 }
 
-PriorityContainer *MillBuffers::parseContainer(const std::string &containerDefinition)
+PriorityContainer *MillParseBuffers::parseContainer(const std::string &containerDefinition)
 {
     int firstSlash = containerDefinition.find('/');
     int secondSlash = containerDefinition.find('/', firstSlash + 1);
@@ -109,7 +109,7 @@ PriorityContainer *MillBuffers::parseContainer(const std::string &containerDefin
     return new PriorityContainer(id, priority, destination);
 }
 
-void MillBuffers::parseContainers()
+void MillParseBuffers::parseContainers()
 {
     for (int i = 9; i < getLines().size(); i++)
     {
@@ -121,7 +121,7 @@ void MillBuffers::parseContainers()
     }
 }
 
-void MillBuffers::parseLines()
+void MillParseBuffers::parseLines()
 {
 
     std::vector<std::string> lines = getLines();
@@ -143,17 +143,17 @@ void MillBuffers::parseLines()
     parseContainers();
 }
 
-std::vector<std::string> MillBuffers::getStackNames()
+std::vector<std::string> MillParseBuffers::getStackNames()
 {
     return stackNames;
 }
 
-void MillBuffers::refreshTime(UntilDue time)
+void MillParseBuffers::refreshTime(UntilDue time)
 {
     int refreshSeconds = time.getSeconds();
     int refreshMinutes = time.getMinutes();
 
-    for (Buffer *buffer : buffers)
+    for (SortedPriorityBuffer *buffer : buffers)
     {
         for (Container *container : buffer->getContainers())
         {
